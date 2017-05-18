@@ -12,3 +12,6 @@ Live Chat for JS
 eg：开始连接的时候，两个页面都显示了一样的内容。
 
 3.具体的问题，运行下代码就会知道问题了。
+
+
+---后期改建了版本：只要server.js和client.html就可以实时聊天啦。 留下server.html只是为了参考
