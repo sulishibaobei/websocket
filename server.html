@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    
+
     <style>
         .kuang{
             width: 600px;
@@ -17,8 +19,7 @@
             overflow-y: scroll;
         }
         .value{  
-            width: 200px;
-             
+            width: 200px;             
         }
         .input{
             display:block;
@@ -26,12 +27,10 @@
             left:0;
             margin-top: 300px;
         }
-        
-
     </style>
 </head>
 <body>
-      <label>连接用户:</label>
+    <label>连接用户:</label>
     <input type="text" id="name" value="小乔"  readonly/>
     <button id="conn">连接</button>
     <button id="close">断开</button><br/><br/>
@@ -40,8 +39,7 @@
     <input type="text" class="value" id="value1"/>
     <button id="send"   onkeydown="KeyDown()">发送</button>
     </div>
- 
-    <script>
+<script>
         var name=document.getElementById("name").value;
         var mess=document.getElementById("mess");
         var value1=document.getElementById("value1");
@@ -88,10 +86,8 @@
             console.log("连接出错");
         }
        
-       }
-          
-           
+       }      
     }
-      </script>
+</script>
 </body>
 </html>

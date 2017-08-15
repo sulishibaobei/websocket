@@ -1,105 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+    <script src="jquery.min.js"></script>
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
     <style>
-        .kuang{
+        .kuang {
             width: 600px;
             min-height: 50px;
-            max-height:296px;
-            border:1px solid;
+            max-height: 296px;
+            border: 1px solid;
             float: left;
-            display:  block;
-            position:relative;
+            display: block;
+            position: relative;
             overflow-y: scroll;
-        }
-        .value{  
-            width: 200px;
-             
-        }
-        .input{
-            display:block;
-            position: absolute;
-            left:0;
-            margin-top: 300px;
         }
     </style>
 </head>
 <body>
-    <label>连接用户:</label>
-    <input type="text" id="name"  />
-    <button id="conn">连接</button>
-    <button id="close">断开</button><br/><br/>
-    <div class="kuang" id="mess"></div>
-    <div class="input"> 
-    <input type="text" class="value" id="value1"  />
-    <button id="send">发送</button>
+    <div class="jumbotron  bg-dark">
+        <div class="container">
+            <h1 class="jumbotron-heading">WebSocket chat,欢迎使用:</h1>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="input-group text-left">
+                <label>输入用户名：</label>
+                <input type="text" id="name" />
+                <button id="conn">连接</button>
+                <button id="close">断开</button>
+            </div>
+            <div class="input-group text-muted">
+                <div class="kuang" id="mess"></div>
+            </div>
+         <hr class="featurette-divider">
+            <div class="input-group text-left">
+                <input type="text" class="value" id="value1" />
+                <button id="send">发送</button>
+            </div>
+        </div>
     </div>
     <script>
-        var input=document.getElementById("name");
-        var conn= document.getElementById("conn");
-        var close=document.getElementById("close");
-        var mess=document.getElementById("mess");
-        var value1=document.getElementById("value1");
+        var input = document.getElementById("name");
+        var conn = document.getElementById("conn");
+        var close = document.getElementById("close");
+        var mess = document.getElementById("mess");
+        var value1 = document.getElementById("value1");
         var pattern = /^[\u4e00-\u9fa5]{2,10}$/;
-     
-        close.disabled=true;
-        if(window.WebSocket){      
-          conn.onclick=function(){
-            if(!pattern.test(input.value)){
-                 alert("名称不能为空且必须为中文");
-                 return;
-            }
-            var ws=new WebSocket('ws://127.0.0.1:8082');
-            conn.disabled=true;
-            close.disabled=false; 
-             ws.onopen=function(e){
-                    console.log("连接服务器成功"); 
-                     ws.send(input.value);
-                     input.setAttribute("readOnly",'true');
-                     value1.setAttribute("readOnly",'true');
-            } 
-        ws.onmessage=function(e){
-             value1.removeAttribute("readOnly");
-            var time=new Date();
-            mess.innerHTML+=time.toUTCString()+":"+e.data+"<br>";
-            document.getElementById("send").onclick=function(e){
-               ws.send(input.value+"说:"+value1.value);
-               value1.value=" ";
-            }
-            document.onkeydown = function(e) {
-                e = e || window.event;
-                if(e.keyCode == 13) {
-                     document.getElementById("send").onclick();
-                     return false;
+        close.disabled = true;
+        if (window.WebSocket) {
+            conn.onclick = function () {
+                if (!pattern.test(input.value)) {
+                    alert("名称不能为空且必须为中文");
+                    return;
                 }
-            }    
-        }
-           ws.onclose = function(e){
-             console.log("服务器关闭");
-          }
-        ws.onerror = function(){
-            console.log("连接出错");
-        }
+                var ws = new WebSocket('ws://127.0.0.1:8082');
+                conn.disabled = true;
+                close.disabled = false;
+                ws.onopen = function (e) {
+                    console.log("连接服务器成功");
+                    ws.send(input.value);
+                    input.setAttribute("readOnly", 'true');
+                    value1.setAttribute("readOnly", 'true');
+                }
+                ws.onmessage = function (e) {
+                    value1.removeAttribute("readOnly");
+                    var time = new Date();
+                    mess.innerHTML += time.toUTCString() + ":" + e.data + "<br>";
+                    document.getElementById("send").onclick = function (e) {
+                        ws.send(input.value + "说:" + value1.value);
+                        value1.value = " ";
+                    }
+                    document.onkeydown = function (e) {
+                        e = e || window.event;
+                        if (e.keyCode == 13) {
+                            document.getElementById("send").onclick();
+                            return false;
+                        }
+                    }
+                }
+                ws.onclose = function (e) {
+                    console.log("服务器关闭");
+                }
+                ws.onerror = function () {
+                    console.log("连接出错");
+                }
 
-         close.onclick=function(){
-            ws.onclose();
-            ws.send(input.value+'close'+"了连接");
-            input.removeAttribute("readOnly");
-            conn.disabled=false;
-            close.disabled=true; 
-        }   
-       
-       }  
-           /**
-         * 客户端主动断开连接
-         * 
-         * **/  
-         
-    }
+                close.onclick = function () {
+                    ws.onclose();
+                    ws.send(input.value + 'close' + "了连接");
+                    input.removeAttribute("readOnly");
+                    conn.disabled = false;
+                    close.disabled = true;
+                }
+            }
+        }
     </script>
 </body>
+
 </html>
