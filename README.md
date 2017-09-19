@@ -1,4 +1,4 @@
-# websocket-
+# websocket
 Live Chat for JS
 是利用websocket+node.js实现的实时聊天系统
  
